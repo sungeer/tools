@@ -5,7 +5,7 @@ from util_file import settings
 
 DB_FILE = settings.DB_DIR.joinpath('mix.db')
 
-DATA_FILE = settings.DATA_DIR.joinpath('20250628-NDEF-client.log')
+DATA_FILE = settings.DATA_DIR.joinpath('huge.log')
 
 
 def creat_dbs():
