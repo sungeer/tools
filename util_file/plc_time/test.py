@@ -3,7 +3,7 @@ import secrets
 
 from util_file import settings
 
-DATA_FILE = settings.DATA_DIR.joinpath('20250628-NDEF-client.log')
+DATA_FILE = settings.DATA_DIR.joinpath('m10_20250628.log')
 
 
 def read_file(filepath: str):

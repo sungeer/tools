@@ -3,9 +3,9 @@ import secrets
 
 from util_file import settings
 
-DB_FILE = settings.DB_DIR.joinpath('mix.db')
+DB_FILE = settings.DB_DIR.joinpath('m10_0629.db')
 
-DATA_FILE = settings.DATA_DIR.joinpath('huge.log')
+DATA_FILE = settings.DATA_DIR.joinpath('m10_20250629.log')
 
 
 def creat_dbs():
