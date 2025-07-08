@@ -3,9 +3,9 @@ import secrets
 
 from util_file import settings
 
-DB_FILE = settings.DB_DIR.joinpath('m10_0629.db')
+DB_FILE = settings.DB_DIR.joinpath('m10_0701.db')
 
-DATA_FILE = settings.DATA_DIR.joinpath('m10_20250629.log')
+DATA_FILE = settings.DATA_DIR.joinpath('client.log')
 
 
 def creat_dbs():
