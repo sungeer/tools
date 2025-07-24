@@ -1,44 +1,31 @@
-"""Gevent 协程
-将数据库操作放入单独的线程池中
-"""
 from gevent import monkey
 
-monkey.patch_all(thread=False, subprocess=False)
+monkey.patch_all()
 
-import MySQLdb
-from flask import Flask, jsonify
-from pebble import ThreadPool
-from gevent.pool import Pool
-from gevent.pywsgi import WSGIServer
+import gevent
+import requests
 
-app = Flask(__name__)
-
-request_pool = Pool(50)
-thread_db_pool = ThreadPool(max_workers=50)
+urls = [
+    'https://www.python.org',
+    'https://www.github.com',
+    'https://www.baidu.com',
+]
 
 
-def query_from_db(sql):
-    # 这里要用自己的连接池，不要用全局连接
-    conn = MySQLdb.connect(host='localhost', user='root', passwd='xxx', db='test')
-    cur = conn.cursor()
-    cur.execute(sql)
-    result = cur.fetchall()
-    cur.close()
-    conn.close()
-    return result
+def fetch(url):
+    print(f'开始抓取: {url}')
+    resp = requests.get(url)
+    print(f'{url} 抓取完成，长度: {len(resp.text)}')
+    return resp.text
 
 
-@app.route('/data')
-def data():
-    future = thread_db_pool.submit(query_from_db, "SELECT * FROM mytable")
-    try:
-        result = future.result(timeout=3)  # 阻塞等待结果，但只阻塞当前协程，不会卡住整个 gevent
-        return jsonify(result)
-    except TimeoutError:
-        return jsonify({'error': 'DB timeout'}), 504
+tasks = [gevent.spawn(fetch, url) for url in urls]
+gevent.joinall(tasks)
 
+# 通过 task.value 获取的结果顺序与任务创建（也就是 urls 顺序）顺序一致
+# 直接获取结果
+results = [task.value for task in tasks]
 
-if __name__ == '__main__':
-    # server = WSGIServer(('0.0.0.0', 8848), app, log=None, spawn=request_pool)
-    server = WSGIServer(('0.0.0.0', 8000), app)
-    server.serve_forever()
+# 输出每个结果的长度
+for url, task in zip(urls, tasks):
+    print(f'{url} 的内容长度: {len(task.value)}')
