@@ -1,11 +1,8 @@
 import sqlite3
-import secrets
 
-from util_file import settings
+from tools import settings
 
-DB_FILE = settings.DB_DIR.joinpath('m6_0629.db')
-
-DATA_FILE = settings.DATA_DIR.joinpath('m6_20250629.log')
+DB_FILE = settings.DB_DIR.joinpath('20250724.db')
 
 
 def creat_dbs():
@@ -40,16 +37,6 @@ def creat_dbs():
         conn.close()
 
 
-def read_file(filepath: str):
-    with open(filepath, 'r', encoding='utf-8') as f:
-        for line in f:
-            yield line.rstrip('\n')
-
-
-def generate_random_id(byte_length: int = 16) -> str:
-    return secrets.token_hex(byte_length)
-
-
 def add_log_data(data_list):
     sql_str = '''
         INSERT INTO mix (
@@ -70,26 +57,5 @@ def add_log_data(data_list):
         conn.close()
 
 
-def get_data():
-    burn_list = []
-    for line in read_file(DATA_FILE):
-        if '耗时' not in line:
-            continue
-
-        log_list = line.split(' - ')
-        log_datetime = log_list[0]
-        body_str = log_list[2]
-
-        body_list = body_str.split(' ')
-        operation = body_list[0].replace(':', '').replace('=================', '')
-        duration_ms = str(float(body_list[1]) * 1000)
-
-        data = (log_datetime, operation, duration_ms)
-        burn_list.append(data)
-        print(data)
-    add_log_data(burn_list)
-
-
 if __name__ == '__main__':
-    creat_dbs()
-    get_data()
+    pass
