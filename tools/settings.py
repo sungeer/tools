@@ -12,3 +12,5 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DB_DIR = BASE_DIR / 'dbs'
 
 DATA_DIR =  BASE_DIR / 'files'
+
+LOG_DIR =  BASE_DIR / 'logs'
