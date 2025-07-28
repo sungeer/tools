@@ -8,5 +8,4 @@ python -m pip install mysqlclient flask python-dotenv requests loguru granian
 
 pip install requests gevent pebble
 
-python -m pip install trio
 
