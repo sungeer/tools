@@ -4,8 +4,9 @@ pip freeze > requirements.txt
 pip install -r requirements.txt
 
 
-python -m pip install mysqlclient flask python-dotenv requests loguru granian
+python -m pip install mysqlclient flask python-dotenv requests loguru
 
-pip install requests gevent pebble
+
+
 
 
